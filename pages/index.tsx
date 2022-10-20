@@ -1,7 +1,7 @@
 // Lib
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 // Components
 import MainNavbar from 'components/reusable/global/MainNavbar'
@@ -52,6 +52,11 @@ const AuthNavItems: NavItemInterface[] = [
 const Home: NextPage = () => {
 
   const [sideBarActive, setSideBarActive] = useState(false)
+  const [offsetTop, setOffsetTop] = useState(0)
+
+  const ref = useRef<HTMLElement>(null)
+  const { current: section } = ref
+
 
   return (
     <>
@@ -61,9 +66,9 @@ const Home: NextPage = () => {
 
       <MainNavbar toggleSideBar={sideBarActive} handleToggleSideBar={setSideBarActive} />
 
-      <section className='min-h-screen relative'>
+      <section ref={ref} className='min-h-screen relative'>
         <div className='flex'>
-          <SideNavbar isActive={sideBarActive} navItems={AuthNavItems} />
+          <SideNavbar offsetTop={section?.offsetTop ?? 136} isActive={sideBarActive} navItems={AuthNavItems} />
           <MainContentWrapper />
         </div>
       </section>
