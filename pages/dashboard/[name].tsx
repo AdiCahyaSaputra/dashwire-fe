@@ -1,26 +1,26 @@
 // Lib
-import type { NextPage } from 'next'
 import Head from 'next/head'
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
+import { useRouter } from 'next/router'
 
 // Components
 import MainNavbar from 'components/reusable/global/MainNavbar'
-import MainContentWrapper from 'components/reusable/global/MainContentWrapper'
 import SideNavbar from 'components/reusable/global/SideNavbar'
+import MainContentWrapper from 'components/reusable/global/MainContentWrapper'
 
 // Interface
 import NavItemInterface from 'lib/interface/NavItemInterface'
+import { GetServerSideProps } from 'next'
 
-const GuestNavItems: NavItemInterface[] = [
-  {
-    name: 'Registering An Account',
-    url: '/register'
-  },
-  {
-    name: 'Login To Existing Account',
-    url: '/login'
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const { name } = ctx.query
+
+  return {
+    props: {
+      query: name!
+    }
   }
-]
+}
 
 const AuthNavItems: NavItemInterface[] = [
   {
@@ -49,18 +49,22 @@ const AuthNavItems: NavItemInterface[] = [
   }
 ]
 
-const Home: NextPage = () => {
+type Props = {
+  query: string | string[]
+}
 
+const DashboardTableView: React.FC<Props> = ({ query }) => {
+
+  const router = useRouter()
   const [sideBarActive, setSideBarActive] = useState(false)
 
   const ref = useRef<HTMLElement>(null)
   const { current: section } = ref
 
-
   return (
     <>
       <Head>
-        <title>Dashboardify</title>
+        <title>Dashboard | View Data</title>
       </Head>
 
       <MainNavbar toggleSideBar={sideBarActive} handleToggleSideBar={setSideBarActive} />
@@ -73,9 +77,8 @@ const Home: NextPage = () => {
           </MainContentWrapper>
         </div>
       </section>
-
     </>
   )
 }
 
-export default Home
+export default DashboardTableView

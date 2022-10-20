@@ -1,5 +1,5 @@
 // Lib
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 // Components
 import SideNavItem from 'components/reusable/global/SideNavItem'
@@ -9,15 +9,21 @@ import NavItemInterface from 'lib/interface/NavItemInterface'
 
 // Icon
 import BarArrowDownIcon from '../../../asset/svg/bar-arrow-down.svg'
+import { useRouter } from 'next/router'
 
 type Props = {
   navItemWrapper: NavItemInterface,
-  navDropdownItems: NavItemInterface[]
+  navDropdownItems: NavItemInterface[],
 }
 
 const SideNavItemDropdown: React.FC<Props> = ({ navItemWrapper, navDropdownItems }) => {
 
+  const router = useRouter()
   const [openDropDown, setOpenDropDown] = useState(false)
+
+  useEffect(() => {
+    if (router.asPath.startsWith(navItemWrapper.url)) setOpenDropDown(true)
+  }, [])
 
   return (
     <div className={`overflow-hidden hover:border-l-2 ${openDropDown && 'border-l-2'} border-white`}>

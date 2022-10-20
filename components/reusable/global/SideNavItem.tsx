@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import NavItemInterface from 'lib/interface/NavItemInterface'
 
 type Props = {
-  navItem: NavItemInterface
+  navItem: NavItemInterface,
 }
 
 const SideNavItem: React.FC<Props> = ({ navItem }) => {
@@ -21,7 +21,7 @@ const SideNavItem: React.FC<Props> = ({ navItem }) => {
     <li onClick={() => {
       if (!navItem.dropDownItems) return clickHandler(navItem.url)
     }} className="py-2 px-4 hover:bg-white/20">
-      <a className={navItem.url === router.pathname ? 'text-white' : 'text-white/60'}>{navItem.name}</a>
+      <a className={navItem.url === router.asPath ? 'text-white' : 'text-white/60'}>{navItem.name}</a>
     </li>
   )
 }

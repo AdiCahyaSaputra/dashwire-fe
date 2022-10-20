@@ -8,12 +8,15 @@ import SideNavItemDropdown from './SideNavItemDropdown'
 type Props = {
   isActive: boolean,
   navItems: NavItemInterface[],
-  offsetTop: number
+  offsetTop: number,
 }
 
 const SideNavbar: React.FC<Props> = ({ isActive, navItems, offsetTop }) => {
+
   return (
-    <aside className={`fixed top-[${offsetTop}px] bottom-0 text-sm ${!isActive && '-translate-x-full'} md:translate-x-0 inset-x-0 p-6 md:w-3/12 bg-black`}>
+    <aside style={{
+      top: offsetTop
+    }} className={`fixed bottom-0 text-sm ${!isActive && '-translate-x-full'} md:translate-x-0 inset-x-0 p-6 md:w-3/12 bg-black`}>
       <ul className='space-y-2'>
 
         {navItems.map((navItem, index: number) => (
