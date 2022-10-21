@@ -1,5 +1,6 @@
 // Lib
 import { useRouter } from 'next/router'
+import { getBreadcrumbStr } from 'lib/utils/StringHelpers'
 
 // Components
 import Container from './Container'
@@ -15,6 +16,7 @@ type Props = {
 const MainNavbar: React.FC<Props> = ({ toggleSideBar, handleToggleSideBar }) => {
 
   const router = useRouter()
+  const breadcrumbItems = getBreadcrumbStr(router.asPath)
 
   return (
     <nav className='z-10 border-b-2 border-white sticky top-0 inset-x-0 bg-black text-white select-none'>
@@ -49,8 +51,14 @@ const MainNavbar: React.FC<Props> = ({ toggleSideBar, handleToggleSideBar }) => 
           </div>
         </button>
 
-        <div className='text-sm font-light'>
-          {router.asPath}
+        <div className='divide-x divide-white text-sm hidden font-light md:flex items-center space-x-2'>
+          {breadcrumbItems.map((item, index: number) => (
+            <div key={index} className='px-2'>
+              <p>
+                {item}
+              </p>
+            </div>
+          ))}
         </div>
 
       </Container>

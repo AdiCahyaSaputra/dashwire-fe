@@ -1,26 +1,15 @@
 // Lib
 import Head from 'next/head'
 import { useRef, useState } from 'react'
-import { useRouter } from 'next/router'
 
 // Components
 import MainNavbar from 'components/reusable/global/MainNavbar'
 import SideNavbar from 'components/reusable/global/SideNavbar'
 import MainContentWrapper from 'components/reusable/global/MainContentWrapper'
+import TablesNameSection from 'components/section/dashboard/TablesNameSection'
 
 // Interface
 import NavItemInterface from 'lib/interface/NavItemInterface'
-import { GetServerSideProps } from 'next'
-
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const { name } = ctx.query
-
-  return {
-    props: {
-      query: name!
-    }
-  }
-}
 
 const AuthNavItems: NavItemInterface[] = [
   {
@@ -35,7 +24,25 @@ const AuthNavItems: NavItemInterface[] = [
   },
   {
     name: 'Tables Creator',
-    url: '/tables-creator'
+    url: '/tables-creator',
+    dropDownItems: [
+      {
+        name: 'Using JSON',
+        url: '/tables-creator/json'
+      },
+      {
+        name: 'CSV Files',
+        url: '/tables-creator/csv'
+      },
+      {
+        name: 'Import From Excel',
+        url: '/tables-creator/excel'
+      },
+      {
+        name: 'Create From Scratch',
+        url: '/tables-creator/scratch'
+      }
+    ]
   },
   {
     name: 'Manipulation',
@@ -49,13 +56,8 @@ const AuthNavItems: NavItemInterface[] = [
   }
 ]
 
-type Props = {
-  query: string | string[]
-}
+const DashboardTableView: React.FC = () => {
 
-const DashboardTableView: React.FC<Props> = ({ query }) => {
-
-  const router = useRouter()
   const [sideBarActive, setSideBarActive] = useState(false)
 
   const ref = useRef<HTMLElement>(null)
@@ -70,11 +72,14 @@ const DashboardTableView: React.FC<Props> = ({ query }) => {
       <MainNavbar toggleSideBar={sideBarActive} handleToggleSideBar={setSideBarActive} />
 
       <section ref={ref} className='min-h-screen relative'>
-        <div className='flex'>
+        <div className='flex justify-end'>
+
           <SideNavbar offsetTop={section?.offsetTop ?? 136} isActive={sideBarActive} navItems={AuthNavItems} />
+
           <MainContentWrapper>
-            <h1>Hello World</h1>
+            <TablesNameSection/>
           </MainContentWrapper>
+
         </div>
       </section>
     </>
