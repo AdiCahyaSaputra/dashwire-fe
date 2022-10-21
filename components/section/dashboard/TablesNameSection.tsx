@@ -1,5 +1,7 @@
 // Components
 import AuthorList from 'components/reusable/dashboard/AuthorList'
+import TableBodyItem from 'components/reusable/dashboard/TableBodyItem'
+import TableHeadItem from 'components/reusable/dashboard/TableHeadItem'
 
 const authorList = ['Adi Cahya Saputra', 'Amicia De Rune']
 
@@ -21,23 +23,23 @@ const TablesNameSection: React.FC = () => {
       <div className='overflow-auto mt-16'>
         <table>
 
-          <thead className='bg-black text-white text-left'>
-            <tr>
-              <th className='py-2 px-4'>No</th>
-              <th className='py-2 px-4'>Nama</th>
-              <th className='py-2 px-4'>NISN</th>
-              <th className='py-2 px-4'>Jurusan</th>
-              <th className='py-2 px-4'>Nomor HP</th>
+          <thead className='bg-yellow-600/30 text-yellow-600 text-left'>
+            <tr className='divide-x-2 divide-yellow-600/40 border-2 border-dashed border-yellow-600'>
+              <TableHeadItem column='No'/>
+              <TableHeadItem column='Nama'/>
+              <TableHeadItem column='NISN'/>
+              <TableHeadItem column='Jurusan'/>
+              <TableHeadItem column='Nomor HP'/>
             </tr>
           </thead>
 
-          <tbody className='text-left'>
-            <tr>
-              <td className='py-2 px-4'>1</td>
-              <td className='py-2 px-4'>Adi Cahya Saputra</td>
-              <td className='py-2 px-4'>00501928291</td>
-              <td className='py-2 px-4'>RPL</td>
-              <td className='py-2 px-4'>081311513938</td>
+          <tbody className='bg-white/30 border-2 border-t-0 border-white/30 text-left'>
+            <tr className='divide-x-2 divide-white/30'>
+              <TableBodyItem data='1'/>
+              <TableBodyItem data='Adi Cahya Saputra'/>
+              <TableBodyItem data='00581910282'/>
+              <TableBodyItem data='RPL'/>
+              <TableBodyItem data='081311513938'/>
             </tr>
           </tbody>
 
