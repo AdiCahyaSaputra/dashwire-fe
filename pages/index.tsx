@@ -1,7 +1,7 @@
 // Lib
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 
 // Components
 import MainNavbar from 'components/reusable/global/MainNavbar'
@@ -50,6 +50,7 @@ const AuthNavItems: NavItemInterface[] = [
 ]
 
 const Home: NextPage = () => {
+
 
   const [sideBarActive, setSideBarActive] = useState(false)
 

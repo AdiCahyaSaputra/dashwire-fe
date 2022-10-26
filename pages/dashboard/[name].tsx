@@ -77,7 +77,7 @@ const DashboardTableView: React.FC = () => {
           <SideNavbar offsetTop={section?.offsetTop ?? 136} isActive={sideBarActive} navItems={AuthNavItems} />
 
           <MainContentWrapper>
-            <TablesNameSection/>
+            <TablesNameSection />
           </MainContentWrapper>
 
         </div>
