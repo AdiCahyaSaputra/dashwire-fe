@@ -11,17 +11,6 @@ import SideNavbar from 'components/reusable/global/SideNavbar'
 // Interface
 import NavItemInterface from 'lib/interface/NavItemInterface'
 
-const GuestNavItems: NavItemInterface[] = [
-  {
-    name: 'Registering An Account',
-    url: '/register'
-  },
-  {
-    name: 'Login To Existing Account',
-    url: '/login'
-  }
-]
-
 const AuthNavItems: NavItemInterface[] = [
   {
     name: 'View Data',
@@ -35,7 +24,25 @@ const AuthNavItems: NavItemInterface[] = [
   },
   {
     name: 'Tables Creator',
-    url: '/tables-creator'
+    url: '/tables-creator',
+    dropDownItems: [
+      {
+        name: 'Using JSON',
+        url: '/tables-creator/json'
+      },
+      {
+        name: 'CSV Files',
+        url: '/tables-creator/csv'
+      },
+      {
+        name: 'Import From Excel',
+        url: '/tables-creator/excel'
+      },
+      {
+        name: 'Create From Scratch',
+        url: '/tables-creator/scratch'
+      }
+    ]
   },
   {
     name: 'Manipulation',

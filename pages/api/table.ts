@@ -1,6 +1,8 @@
-export default async function handler() {
+import { TOKEN } from 'lib/utils/TokenAuth'
+import { NextApiResponse } from 'next'
 
-  const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE2NjY3MDU5OTQsImV4cCI6MTY2NjcwOTU5NCwibmJmIjoxNjY2NzA1OTk0LCJqdGkiOiJ1VW83VkExZGdqcHVQUmZTIiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.E6mlbkRX9HUJp1qtlQrXn-xVnYylmSidMiD7msWJ61s'
+export default async function handler(response: NextApiResponse) {
+
   const baseUrl = 'http://localhost:8000/'
 
   const data = {
@@ -42,7 +44,7 @@ export default async function handler() {
   const req: any = await fetch(`${baseUrl}api/table/`, {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${token}`,
+      'Authorization': `Bearer ${TOKEN}`,
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
@@ -53,4 +55,7 @@ export default async function handler() {
   const res = await req.json()
 
   console.log(res)
+  // return response.status(200).json({
+  //   message: res.message
+  // })
 }
