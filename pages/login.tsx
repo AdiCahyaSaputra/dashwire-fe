@@ -1,8 +1,20 @@
+// Lib
+import Link from 'next/link'
+import Head from 'next/head'
 import { NextPage } from 'next'
 import { useState } from 'react'
-import Link from 'next/link'
+import { useAuth } from 'lib/hook/useAuth'
+
+// Components
+import Notify from 'components/reusable/global/Notify'
+
+// Interface
+import ResponseInterface from 'lib/interface/ResponseInterface'
 
 const Login: NextPage = () => {
+
+  const { login } = useAuth()
+
   const [user, setUser] = useState({
     email: '',
     password: ''
@@ -10,21 +22,43 @@ const Login: NextPage = () => {
 
   const [isSubmit, setIsSubmit] = useState(false)
 
-  const handleChange = (name: any, value: any) => {
+  const [response, setResponse] = useState<ResponseInterface>({
+    status: 0,
+    message: '',
+    data: []
+  })
+
+  const handleChange = (e: any) => {
+
+    const { name, value } = e.target
     setUser({
       ...user,
       [name]: value
     })
+
   }
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = async (e: any) => {
+
     e.preventDefault()
     setIsSubmit(true)
+
+    const res = await login(user)
+    setResponse(res)
+
+    setIsSubmit(false)
   }
 
   return (
     <>
+
+      <Head>
+        <title>Login</title>
+      </Head>
+
       <section className='flex flex-col items-center justify-center min-h-screen bg-black'>
+
+        <Notify response={response} close={setResponse} />
 
         <h1 className='text-xl text-center mb-16 hover:text-white font-bold text-white/30'>
           Fill in a valid email address <br />to see the login button
@@ -38,9 +72,10 @@ const Login: NextPage = () => {
               type='email'
               name='email'
               placeholder='Email address'
-              onChange={(e) => handleChange('email', e.target.value)}
+              onChange={handleChange}
               required
               autoComplete='off'
+              value={user.email}
             />
 
             <input
@@ -49,7 +84,8 @@ const Login: NextPage = () => {
               name='password'
               placeholder='Password'
               required
-              onChange={(e) => handleChange('password', e.target.value)}
+              onChange={handleChange}
+              value={user.password}
             />
 
             <button disabled={isSubmit} className={`disabled:bg-green-600 disabled:text-white peer-invalid:bg-transparent bg-white text-black text-sm font-bold py-2 px-4 w-full`}>
@@ -62,7 +98,9 @@ const Login: NextPage = () => {
         <Link href='/register' className='mt-16 text-blue-600 hover:underline'>
           Create new
         </Link>
+
       </section>
+
     </>
   )
 }

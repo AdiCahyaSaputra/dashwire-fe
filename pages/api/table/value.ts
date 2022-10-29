@@ -1,4 +1,4 @@
-import { TOKEN } from 'lib/utils/TokenAuth'
+import { TOKEN } from 'lib/utils/TokenAuthUtils'
 
 export default async function handler() {
 

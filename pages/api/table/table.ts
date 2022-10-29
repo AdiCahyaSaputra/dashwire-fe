@@ -1,4 +1,4 @@
-import { TOKEN } from 'lib/utils/TokenAuth'
+import { TOKEN } from 'lib/utils/TokenAuthUtils'
 import { NextApiResponse } from 'next'
 
 export default async function handler(response: NextApiResponse) {
