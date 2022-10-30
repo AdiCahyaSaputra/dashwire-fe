@@ -1,27 +1,26 @@
 // Lib
-import Link from 'next/link'
+import type { NextPage } from 'next'
 import Head from 'next/head'
-import { NextPage } from 'next'
 import { useState } from 'react'
 import { useAuth } from 'lib/hook/useAuth'
+import Link from 'next/link'
 
 // Components
-import Notify from 'components/reusable/global/Notify'
 import AuthLayoutSection from 'components/section/auth/AuthLayoutSection'
+import Notify from 'components/reusable/global/Notify'
 
 // Interface
 import ResponseInterface from 'lib/interface/ResponseInterface'
 
-const Login: NextPage = () => {
+const Register: NextPage = () => {
 
-  const { login } = useAuth()
+  const { register } = useAuth()
 
   const [user, setUser] = useState({
     email: '',
+    name: '',
     password: ''
   })
-
-  const [isSubmit, setIsSubmit] = useState(false)
 
   const [response, setResponse] = useState<ResponseInterface>({
     status: 0,
@@ -29,6 +28,8 @@ const Login: NextPage = () => {
     data: []
   })
 
+  const [isSubmit, setIsSubmit] = useState(false)
+  
   const handleChange = (e: any) => {
 
     const { name, value } = e.target
@@ -44,7 +45,7 @@ const Login: NextPage = () => {
     e.preventDefault()
     setIsSubmit(true)
 
-    const res = await login(user)
+    const res = await register(user)
     setResponse(res)
 
     setIsSubmit(false)
@@ -54,7 +55,7 @@ const Login: NextPage = () => {
     <>
 
       <Head>
-        <title>Login</title>
+        <title>Register</title>
       </Head>
 
       <AuthLayoutSection>
@@ -62,7 +63,7 @@ const Login: NextPage = () => {
         <Notify response={response} close={setResponse} />
 
         <h1 className='selection:bg-white selection:text-black text-xl text-center mb-16 hover:text-white font-bold text-white/30'>
-          Fill In A Valid Email Address <br />To See The Login Button
+          Fill In All Blank Input <br />To See The Register Button
         </h1>
 
         <form onSubmit={handleSubmit}>
@@ -80,7 +81,18 @@ const Login: NextPage = () => {
             />
 
             <input
-              className='input-tw'
+              className='input-tw peer'
+              type='text'
+              name='name'
+              placeholder='Name'
+              onChange={handleChange}
+              required
+              autoComplete='off'
+              value={user.name}
+            />
+
+            <input
+              className='input-tw peer'
               type='password'
               name='password'
               placeholder='Password'
@@ -90,14 +102,14 @@ const Login: NextPage = () => {
             />
 
             <button disabled={isSubmit} className={`disabled:bg-green-600 disabled:text-white peer-invalid:hidden bg-white text-black text-sm font-bold py-2 px-4 w-full`}>
-              {isSubmit ? '>_<' : 'Login Now'}
+              {isSubmit ? '>_<' : 'Register New Account'}
             </button>
 
           </div>
         </form>
 
-        <Link href='/register' className='select-none mt-16 text-blue-600 hover:underline'>
-          Create New?
+        <Link href='/login' className='mt-16 select-none text-blue-600 hover:underline'>
+          I Have It, Just Login
         </Link>
 
       </AuthLayoutSection>
@@ -106,4 +118,4 @@ const Login: NextPage = () => {
   )
 }
 
-export default Login
+export default Register

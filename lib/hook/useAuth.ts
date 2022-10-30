@@ -51,7 +51,29 @@ export const useAuth = () => {
 
   }
 
+  const register = async (data: LoginDataInterface) => {
+
+    const url = BASE_API_URL + '/auth/register'
+    const req = await fetch(url, {
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      method: 'POST',
+      body: JSON.stringify(data)
+    })
+
+    const res = await req.json()
+
+    return RESPONSE({
+      status: req.status,
+      message: res.message,
+    })
+
+  }
+
   return {
-    login
+    login,
+    register
   }
 }

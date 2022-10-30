@@ -1,5 +1,13 @@
-* { transition: all .3s; }
+* { 
+  transition: all .3s; 
+}
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .input-tw {
+    @apply selection:bg-white selection:text-black p-2 valid:border-green-600 invalid:border-red-600 focus:border-white outline-none border border-white/40 bg-black text-white;
+  }
+}
