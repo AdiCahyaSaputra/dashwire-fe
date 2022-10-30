@@ -10,6 +10,10 @@ export default function handler(
     req, res
   })
 
+  deleteCookie('user', {
+    req, res
+  })
+
   return res.status(200).json({
     message: 'Cookie deleted',
   })

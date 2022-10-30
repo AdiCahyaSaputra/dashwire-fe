@@ -1,6 +1,7 @@
 // Lib
 import { useRouter } from 'next/router'
-import { getBreadcrumbStr } from 'lib/utils/StringHelpers'
+import { getBreadcrumbStr } from 'lib/utils/HelpersUtils'
+import { useAuth } from 'lib/hook/useAuth'
 
 // Components
 import Container from './Container'
@@ -10,13 +11,22 @@ import LogoutIcon from '../../../asset/svg/logout.svg'
 
 type Props = {
   toggleSideBar: boolean,
-  handleToggleSideBar: Function
+  handleToggleSideBar: Function,
+  loggedUser: string,
+  token: string
 }
 
-const MainNavbar: React.FC<Props> = ({ toggleSideBar, handleToggleSideBar }) => {
+const MainNavbar: React.FC<Props> = ({ toggleSideBar, handleToggleSideBar, loggedUser, token }) => {
+
+  const { logout } = useAuth()
 
   const router = useRouter()
   const breadcrumbItems = getBreadcrumbStr(router.asPath)
+
+  const logoutHandler = async () => {
+    const res = await logout(token)
+    console.info(res.message, res.status)
+  }
 
   return (
     <nav className='z-10 border-b-2 border-white sticky top-0 inset-x-0 bg-black text-white select-none'>
@@ -24,13 +34,13 @@ const MainNavbar: React.FC<Props> = ({ toggleSideBar, handleToggleSideBar }) => 
       <Container className='p-4 flex items-center justify-between'>
 
         <div>
-          <h1 className='text-xl font-bold'>DashboardiFY</h1>
+          <h1 className='text-xl font-bold'>Dashwire_</h1>
           <p className='text-sm text-white/80'>
-            Logged as <span className='text-white font-medium'>Admin</span>
+            Logged as <span className='text-white font-medium'>{loggedUser}</span>
           </p>
         </div>
 
-        <div className='cursor-pointer md:flex items-center md:space-x-2 py-2 pl-2 pr-2 md:pr-4 rounded-md bg-red-600/30 hover:bg-red-600/40 hover:shadow-md hover:shadow-red-600/40'>
+        <div onClick={logoutHandler} className='cursor-pointer md:flex items-center md:space-x-2 py-2 pl-2 pr-2 md:pr-4 rounded-md bg-red-600/30 hover:bg-red-600/40 hover:shadow-md hover:shadow-red-600/40'>
           <LogoutIcon className='rotate-180 fill-red-600 w-6 aspect-square' />
           <p className='hidden md:block text-sm text-red-600'>Logout</p>
         </div>

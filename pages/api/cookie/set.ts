@@ -15,6 +15,10 @@ export default function handler(
     req, res, httpOnly: true, expires: date
   })
 
+  setCookie('user', req.body.user, {
+    req, res, httpOnly: true, expires: date
+  })
+
   return res.status(200).json({
     message: 'Cookie is set'
   })

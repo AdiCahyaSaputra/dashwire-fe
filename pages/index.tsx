@@ -58,7 +58,6 @@ const AuthNavItems: NavItemInterface[] = [
 
 const Home: NextPage = () => {
 
-
   const [sideBarActive, setSideBarActive] = useState(false)
 
   const ref = useRef<HTMLElement>(null)

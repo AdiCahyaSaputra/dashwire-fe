@@ -3,13 +3,13 @@ import { BASE_API_URL, RESPONSE } from 'lib/utils/ApiUtils'
 import { useRouter } from 'next/router'
 
 // Interface
-import LoginDataInterface from 'lib/interface/LoginDataInterface'
+import UserInterface from 'lib/interface/UserInterface'
 
 export const useAuth = () => {
 
   const router = useRouter()
 
-  const login = async (data: LoginDataInterface) => {
+  const login = async (data: UserInterface) => {
 
     const url = BASE_API_URL + '/auth/login'
     const req = await fetch(url, {
@@ -35,7 +35,8 @@ export const useAuth = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          token: res.access_token
+          token: res.access_token,
+          user: res.data.user
         })
       })
 
@@ -51,7 +52,7 @@ export const useAuth = () => {
 
   }
 
-  const register = async (data: LoginDataInterface) => {
+  const register = async (data: UserInterface) => {
 
     const url = BASE_API_URL + '/auth/register'
     const req = await fetch(url, {
@@ -72,8 +73,41 @@ export const useAuth = () => {
 
   }
 
+  const logout = async (token: string) => {
+
+    const url = BASE_API_URL + '/auth/logout'
+    const req = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    })
+
+    if (req.ok) {
+      const destroy = await fetch('/api/cookie/delete', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      })
+
+      if (destroy.ok) router.push('/login')
+    }
+
+    const res = await req.json()
+
+    return RESPONSE({
+      status: req.status,
+      message: res.message
+    })
+
+  }
+
   return {
     login,
-    register
+    register,
+    logout
   }
 }
