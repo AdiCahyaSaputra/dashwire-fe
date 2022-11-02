@@ -1,6 +1,7 @@
 // Lib
 import { BASE_API_URL, RESPONSE } from 'lib/utils/ApiUtils'
 import { useRouter } from 'next/router'
+import { getTables } from 'lib/utils/EndpointsUtils'
 
 // Interface
 import UserInterface from 'lib/interface/UserInterface'
@@ -28,19 +29,30 @@ export const useAuth = () => {
 
     const res = await req.json()
 
-    if (res.access_token) {
-      const req = await fetch('/api/cookie/set', {
+    if (res.token.access_token) {
+
+      const tables = await getTables(res.token.access_token)
+
+      const setCookie = await fetch('/api/cookie/set', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          token: res.access_token,
-          user: res.data.user
+          access_token: {
+            days: 1,
+            value: res.token.access_token
+          },
+          refresh_token: {
+            days: 30,
+            value: res.token.refresh_token
+          },
+          user: res.data.user,
+          tables: tables.data
         })
       })
 
-      if (req.ok) router.push('/dashboard')
+      if (setCookie.ok) router.push('/dashboard')
     }
 
 
@@ -85,7 +97,7 @@ export const useAuth = () => {
       }
     })
 
-    if (req.ok) {
+    if (req.ok || req.status === 401) {
       const destroy = await fetch('/api/cookie/delete', {
         method: 'POST',
         headers: {

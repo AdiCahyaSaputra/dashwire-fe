@@ -6,9 +6,9 @@ export function middleware(request: NextRequest) {
   const guest = ['/login', '/register']
 
   // If The Token Exist but you're in Guest URL
-  if(request.cookies.get('token')) {
-    for(const url of guest) {
-      if(request.nextUrl.pathname.startsWith(url)) {
+  if (request.cookies.get('access_token')) {
+    for (const url of guest) {
+      if (request.nextUrl.pathname.startsWith(url)) {
         return NextResponse.redirect(new URL('/dashboard', request.url))
       }
     }
@@ -18,8 +18,8 @@ export function middleware(request: NextRequest) {
   }
 
   // If The Token Is Undefined and You're in Guest URL
-  for(const url of guest) {
-    if(request.nextUrl.pathname.startsWith(url)) {
+  for (const url of guest) {
+    if (request.nextUrl.pathname.startsWith(url)) {
       return NextResponse.next()
     }
   }

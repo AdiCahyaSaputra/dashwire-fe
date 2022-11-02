@@ -2,6 +2,7 @@
 import type { GetServerSideProps, NextPage } from 'next'
 import Head from 'next/head'
 import { useRef, useState } from 'react'
+import { getNavItems } from 'lib/utils/HelpersUtils'
 
 // Components
 import MainNavbar from 'components/reusable/global/MainNavbar'
@@ -11,60 +12,18 @@ import SideNavbar from 'components/reusable/global/SideNavbar'
 // Interface
 import NavItemInterface from 'lib/interface/NavItemInterface'
 import UserInterface from 'lib/interface/UserInterface'
-
-const AuthNavItems: NavItemInterface[] = [
-  {
-    name: 'View Data',
-    url: '/dashboard',
-    dropDownItems: [
-      {
-        name: 'table-name',
-        url: '/dashboard/table-name'
-      }
-    ]
-  },
-  {
-    name: 'Tables Creator',
-    url: '/tables-creator',
-    dropDownItems: [
-      {
-        name: 'Using JSON',
-        url: '/tables-creator/json'
-      },
-      {
-        name: 'CSV Files',
-        url: '/tables-creator/csv'
-      },
-      {
-        name: 'Import From Excel',
-        url: '/tables-creator/excel'
-      },
-      {
-        name: 'Create From Scratch',
-        url: '/tables-creator/scratch'
-      }
-    ]
-  },
-  {
-    name: 'Manipulation',
-    url: '/manipulation',
-    dropDownItems: [
-      {
-        name: 'table-name',
-        url: '/manipulation/table-name'
-      }
-    ]
-  }
-]
+import TableInfoInterface from 'lib/interface/TableInfoInterface'
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
-  const { token, user } = ctx.req.cookies
+  const { access_token, user, tables } = ctx.req.cookies
 
   return {
     props: {
       user: JSON.parse(user!),
-      token
+      access_token,
+      data: JSON.parse(tables!)
+
     }
   }
 
@@ -72,15 +31,20 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 type Props = {
   user: UserInterface,
-  token: string
+  access_token: string,
+  data: {
+    tables?: TableInfoInterface[]
+  }
 }
 
-const Home: NextPage<Props> = ({ user, token }) => {
+const Home: NextPage<Props> = ({ user, access_token, data }) => {
 
   const [sideBarActive, setSideBarActive] = useState(false)
 
   const ref = useRef<HTMLElement>(null)
   const { current: section } = ref
+
+  const AuthNavItems: NavItemInterface[] = getNavItems(data)
 
   return (
     <>
@@ -88,17 +52,52 @@ const Home: NextPage<Props> = ({ user, token }) => {
         <title>Dashwire</title>
       </Head>
 
-      <MainNavbar toggleSideBar={sideBarActive} handleToggleSideBar={setSideBarActive} loggedUser={user.name!} token={token!} />
+      <MainNavbar toggleSideBar={sideBarActive} handleToggleSideBar={setSideBarActive} loggedUser={user.name!} access_token={access_token!} />
 
       <section ref={ref} className='min-h-screen relative'>
         <div className='flex md:justify-end'>
+
           <SideNavbar offsetTop={section?.offsetTop ?? 136} isActive={sideBarActive} navItems={AuthNavItems} />
+
           <MainContentWrapper>
-            <h1>
-              Welcome <span className='font-bold'>{user.name}</span>
-            </h1>
-            <p className='text-sm mt-1.5 text-white/70'>Here&apos;s Some Information For You</p>
+            <div className='space-y-8'>
+
+              <section>
+
+                <h1 className='text-xl font-bold'>Who You&apos;re</h1>
+                <p className='text-sm text-white/70'>
+                  Information of your account &rarr;
+                </p>
+
+                <div className='mt-2 pl-4 border-l-2 border-white/70 border-dashed'>
+                  <h1 className='text-lg font-bold'>
+                    {user.name}
+                  </h1>
+                  <p className='text-sm text-white/70'>
+                    {user.email}
+                  </p>
+                </div>
+
+              </section>
+
+              <section>
+
+                <h1 className='text-xl font-bold'>Permission</h1>
+                <p className='text-sm text-white/70'>
+                  To manage the following table &rarr;
+                </p>
+
+                <div className='mt-2 pl-4 border-l-2 border-white/70 border-dashed'>
+                  <h1 className='text-lg font-bold'>
+                    You Don&apos;t Have Permission To Manage Any Table
+                  </h1>
+                </div>
+
+              </section>
+
+            </div>
           </MainContentWrapper>
+
         </div>
       </section>
 

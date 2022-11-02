@@ -18,11 +18,11 @@ const SideNavItem: React.FC<Props> = ({ navItem }) => {
   }
 
   return (
-    <li onClick={() => {
+    <div onClick={() => {
       if (!navItem.dropDownItems) return clickHandler(navItem.url)
     }} className={`py-2 px-4 cursor-pointer hover:bg-white/20 ${navItem.url === router.asPath && 'bg-white/20'}`}>
       <a className={navItem.url === router.asPath ? 'text-white' : 'text-white/60'}>{navItem.name}</a>
-    </li>
+    </div>
   )
 }
 

@@ -2,17 +2,17 @@ import { GetServerSideProps, NextPage } from 'next'
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
-  const { token } = ctx.req.cookies
+  const { access_token } = ctx.req.cookies
 
   return {
     props: {
-      token: token ?? null
+      access_token: access_token ?? null
     }
   }
 }
 
 type Props = {
-  token: string | null
+  access_token: string | null
 }
 
 const setHandler = async () => {
@@ -22,7 +22,7 @@ const setHandler = async () => {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      token: 'token123'
+      access_token: 'token123'
     })
   })
 
@@ -41,10 +41,10 @@ const destroyHandler = async () => {
   console.log(res)
 }
 
-const Test: NextPage<Props> = ({ token }) => {
+const Test: NextPage<Props> = ({ access_token }) => {
   return (
     <div>
-      <h1>token : {token}</h1>
+      <h1>access_token : {access_token}</h1>
       <button onClick={setHandler}>set cookie</button>
       <button onClick={destroyHandler}>destroy cookie</button>
     </div>

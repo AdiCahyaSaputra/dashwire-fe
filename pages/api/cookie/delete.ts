@@ -6,13 +6,14 @@ export default function handler(
   res: NextApiResponse
 ) {
 
-  deleteCookie('token', {
-    req, res
-  })
+  const cookies = ['access_token', 'refresh_token', 'user', 'tables']
 
-  deleteCookie('user', {
-    req, res
-  })
+  for (const cookie of cookies) {
+    deleteCookie(cookie, {
+      req, res
+    })
+  }
+
 
   return res.status(200).json({
     message: 'Cookie deleted',

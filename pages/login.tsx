@@ -89,7 +89,7 @@ const Login: NextPage = () => {
               value={user.password}
             />
 
-            <button disabled={isSubmit} className={`disabled:bg-green-600 disabled:text-white peer-invalid:hidden bg-white text-black text-sm font-bold py-2 px-4 w-full`}>
+            <button disabled={isSubmit} className={`disabled:bg-green-600 disabled:text-white visible peer-invalid:invisible bg-white text-black text-sm font-bold py-2 px-4 w-full`}>
               {isSubmit ? '>_<' : 'Login Now'}
             </button>
 

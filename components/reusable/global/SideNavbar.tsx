@@ -1,9 +1,9 @@
 // Components
 import SideNavItem from 'components/reusable/global/SideNavItem'
+import SideNavItemDropdown from 'components/reusable/global/SideNavItemDropdown'
 
 // Interface
 import NavItemInterface from 'lib/interface/NavItemInterface'
-import SideNavItemDropdown from './SideNavItemDropdown'
 
 type Props = {
   isActive: boolean,
@@ -21,7 +21,7 @@ const SideNavbar: React.FC<Props> = ({ isActive, navItems, offsetTop }) => {
 
         {navItems.map((navItem, index: number) => (
           <div key={index}>
-            {navItem.dropDownItems ?
+            {navItem.dropDownItems && navItem.dropDownItems.length ?
               (<SideNavItemDropdown navItemWrapper={navItem} navDropdownItems={navItem.dropDownItems} />)
               :
               (<SideNavItem navItem={navItem} />)

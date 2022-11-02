@@ -2,6 +2,7 @@
 import { useRouter } from 'next/router'
 import { getBreadcrumbStr } from 'lib/utils/HelpersUtils'
 import { useAuth } from 'lib/hook/useAuth'
+import { useState } from 'react'
 
 // Components
 import Container from './Container'
@@ -13,20 +14,23 @@ type Props = {
   toggleSideBar: boolean,
   handleToggleSideBar: Function,
   loggedUser: string,
-  token: string
+  access_token: string
 }
 
-const MainNavbar: React.FC<Props> = ({ toggleSideBar, handleToggleSideBar, loggedUser, token }) => {
+const MainNavbar: React.FC<Props> = ({ toggleSideBar, handleToggleSideBar, loggedUser, access_token }) => {
 
   const { logout } = useAuth()
+
+  const [isSubmit, setIsSubmit] = useState(false)
 
   const router = useRouter()
   const breadcrumbItems = getBreadcrumbStr(router.asPath)
 
   const logoutHandler = async () => {
-    const res = await logout(token)
-    console.info(res.message, res.status)
+    setIsSubmit(true)
+    await logout(access_token)
   }
+
 
   return (
     <nav className='z-10 border-b-2 border-white sticky top-0 inset-x-0 bg-black text-white select-none'>
@@ -40,10 +44,10 @@ const MainNavbar: React.FC<Props> = ({ toggleSideBar, handleToggleSideBar, logge
           </p>
         </div>
 
-        <div onClick={logoutHandler} className='cursor-pointer md:flex items-center md:space-x-2 py-2 pl-2 pr-2 md:pr-4 rounded-md bg-red-600/30 hover:bg-red-600/40 hover:shadow-md hover:shadow-red-600/40'>
+        <button disabled={isSubmit} onClick={logoutHandler} className='cursor-pointer md:flex items-center md:space-x-2 py-2 pl-2 pr-2 md:pr-4 rounded-md bg-red-600/30 disabled:bg-red-600/10 hover:bg-red-600/40 hover:shadow-md disabled:shadow-none hover:shadow-red-600/40'>
           <LogoutIcon className='rotate-180 fill-red-600 w-6 aspect-square' />
-          <p className='hidden md:block text-sm text-red-600'>Logout</p>
-        </div>
+          <p className='hidden md:block text-sm text-red-600'>{isSubmit ? 'Wait..' : 'Logout'}</p>
+        </button>
 
       </Container>
 
