@@ -87,10 +87,18 @@ const Home: NextPage<Props> = ({ user, access_token, data }) => {
                   To manage the following table &rarr;
                 </p>
 
-                <div className='mt-2 pl-4 border-l-2 border-white/70 border-dashed'>
-                  <h1 className='text-lg font-bold'>
-                    You Don&apos;t Have Permission To Manage Any Table
-                  </h1>
+                <div className='mt-2 pl-4 border-l-2 border-white/70 border-dashed flex flex-col space-y-2'>
+                  {data.tables ? (
+                    data.tables.map(({ table, id }) => (
+                      <a key={id} className='text-sky-400 hover:underline text-lg font-bold'>
+                        {table}
+                      </a>
+                    ))
+                  ) : (
+                    <h1 className='text-lg font-bold'>
+                      You Don&apos;t Have Permission To Manage Any Table
+                    </h1>
+                  )}
                 </div>
 
               </section>

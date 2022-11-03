@@ -29,9 +29,9 @@ export const useAuth = () => {
 
     const res = await req.json()
 
-    if (res.token.access_token) {
+    if (res.access_token) {
 
-      const tables = await getTables(res.token.access_token)
+      const tables = await getTables(res.access_token)
 
       const setCookie = await fetch('/api/cookie/set', {
         method: 'POST',
@@ -40,12 +40,8 @@ export const useAuth = () => {
         },
         body: JSON.stringify({
           access_token: {
-            days: 1,
-            value: res.token.access_token
-          },
-          refresh_token: {
-            days: 30,
-            value: res.token.refresh_token
+            time: 60 * 60,
+            value: res.access_token
           },
           user: res.data.user,
           tables: tables.data

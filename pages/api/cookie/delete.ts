@@ -6,7 +6,7 @@ export default function handler(
   res: NextApiResponse
 ) {
 
-  const cookies = ['access_token', 'refresh_token', 'user', 'tables']
+  const cookies = ['access_token', 'user', 'tables']
 
   for (const cookie of cookies) {
     deleteCookie(cookie, {

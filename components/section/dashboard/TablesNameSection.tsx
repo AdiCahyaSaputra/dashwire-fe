@@ -5,7 +5,11 @@ import TableHeadItem from 'components/reusable/dashboard/TableHeadItem'
 
 const authorList = ['Adi Cahya Saputra', 'Amicia De Rune']
 
-const TablesNameSection: React.FC = () => {
+type Props = {
+  authors: any
+}
+
+const TablesNameSection: React.FC<Props> = ({ authors }) => {
   return (
     <>
       <div>
@@ -25,21 +29,21 @@ const TablesNameSection: React.FC = () => {
 
           <thead className='bg-yellow-600/30 text-yellow-600 text-left'>
             <tr className='divide-x-2 divide-yellow-600/40 border-2 border-dashed border-yellow-600'>
-              <TableHeadItem column='No'/>
-              <TableHeadItem column='Nama'/>
-              <TableHeadItem column='NISN'/>
-              <TableHeadItem column='Jurusan'/>
-              <TableHeadItem column='Nomor HP'/>
+              <TableHeadItem column='No' />
+              <TableHeadItem column='Nama' />
+              <TableHeadItem column='NISN' />
+              <TableHeadItem column='Jurusan' />
+              <TableHeadItem column='Nomor HP' />
             </tr>
           </thead>
 
           <tbody className='bg-white/30 border-2 border-t-0 border-white/30 text-left'>
             <tr className='divide-x-2 divide-white/30'>
-              <TableBodyItem data='1'/>
-              <TableBodyItem data='Adi Cahya Saputra'/>
-              <TableBodyItem data='00581910282'/>
-              <TableBodyItem data='RPL'/>
-              <TableBodyItem data='081311513938'/>
+              <TableBodyItem data='1' />
+              <TableBodyItem data='Adi Cahya Saputra' />
+              <TableBodyItem data='00581910282' />
+              <TableBodyItem data='RPL' />
+              <TableBodyItem data='081311513938' />
             </tr>
           </tbody>
 

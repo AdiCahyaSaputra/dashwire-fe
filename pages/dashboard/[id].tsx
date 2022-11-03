@@ -2,6 +2,7 @@
 import Head from 'next/head'
 import { useRef, useState } from 'react'
 import { getNavItems } from 'lib/utils/HelpersUtils'
+import { getTableAuthors, getTableInfo } from 'lib/utils/EndpointsUtils'
 
 // Components
 import MainNavbar from 'components/reusable/global/MainNavbar'
@@ -17,13 +18,18 @@ import TableInfoInterface from 'lib/interface/TableInfoInterface'
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   const { access_token, user, tables } = ctx.req.cookies
+  const { id } = ctx.query
+
+  const tableWithValues = await getTableInfo(id!, access_token!)
+  const tableWithAuthors = await getTableAuthors(id!, access_token!)
 
   return {
     props: {
       user: JSON.parse(user!),
       access_token,
-      data: JSON.parse(tables!)
-
+      data: JSON.parse(tables!),
+      tableInfo: tableWithValues.data, 
+      tableAuthors: tableWithAuthors.data
     }
   }
 
@@ -34,10 +40,12 @@ type Props = {
   access_token: string,
   data: {
     tables?: TableInfoInterface[]
-  }
+  },
+  tableInfo: any,
+  tableAuthors: any
 }
 
-const DashboardTableView: React.FC<Props> = ({ user, access_token, data }) => {
+const DashboardTableView: React.FC<Props> = ({ user, access_token, data, tableInfo, tableAuthors }) => {
 
   const [sideBarActive, setSideBarActive] = useState(false)
 
@@ -60,7 +68,7 @@ const DashboardTableView: React.FC<Props> = ({ user, access_token, data }) => {
           <SideNavbar offsetTop={section?.offsetTop ?? 136} isActive={sideBarActive} navItems={AuthNavItems} />
 
           <MainContentWrapper>
-            <TablesNameSection />
+            <TablesNameSection authors={tableAuthors} />
           </MainContentWrapper>
 
         </div>

@@ -11,10 +11,10 @@ export default function handler(
     Object.keys(req.body).map(key => {
 
       const date = new Date()
-      const days = req.body[key].days ?? 1
+      const time = req.body[key].time ?? 60 * 60
 
-      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000))
-      setCookie(key, req.body[key], {
+      date.setTime(date.getTime() + (time * 1000))
+      setCookie(key, req.body[key].value ?? req.body[key], {
         req, res, httpOnly: true, expires: date
       })
 
