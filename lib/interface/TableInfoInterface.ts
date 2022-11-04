@@ -1,4 +1,9 @@
 export default interface TableInfoInterface {
-  id: string,
-  table: string
+  table: {
+    name: string,
+    id: number
+  },
+  column_values: {
+    [key: string]: any
+  }
 }

@@ -1,6 +1,6 @@
 // Interface
 import NavItemInterface from 'lib/interface/NavItemInterface'
-import TableInfoInterface from 'lib/interface/TableInfoInterface'
+import TableNavItemInterface from 'lib/interface/TableNavItemInterface'
 
 export const toTitleCase = (str: string) => {
   const splittedStr = str.split('')
@@ -22,7 +22,7 @@ export const updateArrayItem = (array: any[], index: number, value: any) => {
 }
 
 type NavItemsData = {
-  tables?: TableInfoInterface[]
+  tables?: TableNavItemInterface[]
 }
 
 export const getNavItems = (data: NavItemsData) => {
@@ -79,4 +79,33 @@ export const getNavItems = (data: NavItemsData) => {
       dropDownItems: DDIManipulation
     }
   ]
+}
+
+export const toValidTable = (data: Object) => {
+
+  const keys = Object.keys(data)
+  const lengthValues = Object.values(data)[0].length
+
+  const obj = {}
+  const arr = []
+
+  let pointer = 0
+
+  while (pointer < lengthValues) {
+
+    keys.forEach(key => {
+      Object.assign(obj, {
+        [key]: data[key][pointer]
+      })
+    })
+
+    const deepClone = JSON.parse(JSON.stringify(obj))
+    arr.push(deepClone)
+
+    pointer++
+
+  }
+
+  return arr
+
 }
