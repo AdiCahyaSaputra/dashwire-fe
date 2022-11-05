@@ -22,14 +22,14 @@ const TablesNameSection: React.FC<Props> = ({ authors, table }) => {
   return (
     <>
       <div>
-        <h1 className="text-3xl font-bold">Table Name</h1>
+        <h1 className="text-3xl font-bold">{table.table.name}</h1>
         <p className="mt-1.5">Untuk mengelola data siswa</p>
       </div>
 
       <div className="mt-8 space-y-2">
         <h4 className="text-lg font-bold">Author List</h4>
-        {authors.map(({ name, id }) => (
-          <AuthorList author={name} key={id} />
+        {authors.map(({ name, id, is_author }) => (
+          <AuthorList author={name} key={id} is_author={is_author}/>
         ))}
       </div>
 
