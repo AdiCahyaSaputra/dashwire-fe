@@ -15,7 +15,7 @@ type Props = {
   table: TableInfoInterface
 }
 
-const TablesNameSection: React.FC<Props> = ({ authors, table }) => {
+const TablesSection: React.FC<Props> = ({ authors, table }) => {
 
   const tableData = toValidTable(table.column_values)
 
@@ -29,7 +29,7 @@ const TablesNameSection: React.FC<Props> = ({ authors, table }) => {
       <div className="mt-8 space-y-2">
         <h4 className="text-lg font-bold">Author List</h4>
         {authors.map(({ name, id, is_author }) => (
-          <AuthorList author={name} key={id} is_author={is_author}/>
+          <AuthorList author={name} key={id} is_author={is_author} />
         ))}
       </div>
 
@@ -60,4 +60,4 @@ const TablesNameSection: React.FC<Props> = ({ authors, table }) => {
   )
 }
 
-export default TablesNameSection
+export default TablesSection
