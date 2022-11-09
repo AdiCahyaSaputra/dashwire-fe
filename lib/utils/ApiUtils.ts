@@ -1,7 +1,7 @@
 // Interface 
 import ResponseInterface from 'lib/interface/ResponseInterface'
 
-export const BASE_API_URL = 'http://localhost:8000/api'
+export const BASE_API_URL = 'http://localhost:8000/api/v1'
 
 export const RESPONSE = ({ status, message, data }: ResponseInterface) => {
   return {

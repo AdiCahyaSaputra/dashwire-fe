@@ -83,6 +83,8 @@ export const getNavItems = (data: NavItemsData) => {
 
 export const toValidTable = (data: Object) => {
 
+  if (!data) return []
+
   const keys = Object.keys(data)
   const lengthValues = Object.values(data)[0].length
 
@@ -95,7 +97,10 @@ export const toValidTable = (data: Object) => {
 
     keys.forEach(key => {
       Object.assign(obj, {
+
+        // @ts-ignore
         [key]: data[key][pointer]
+
       })
     })
 
