@@ -114,3 +114,16 @@ export const toValidTable = (data: Object) => {
   return arr
 
 }
+
+export const toColumn = (colName: string) => {
+  // Magic Code From Stackoverflow
+  return colName
+    .replace(/([a-z])([A-Z]+)/g, (m, s1, s2) => s1 + ' ' + s2)
+    .replace(/([A-Z])([A-Z]+)([^a-zA-Z0-9]*)$/, (m, s1, s2, s3) => s1 + s2.toLowerCase() + s3)
+    .replace(/([A-Z]+)([A-Z][a-z])/g,
+      (m, s1, s2) => s1.toLowerCase() + ' ' + s2)
+    .replace(/\W+/g, ' ')
+    .split(/ |\B(?=[A-Z])/)
+    .map(word => word.toLowerCase())
+    .join('_')
+}

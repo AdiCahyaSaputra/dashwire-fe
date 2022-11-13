@@ -1,5 +1,6 @@
 // Lib
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/router'
 
 // Components
 import SideNavItem from 'components/reusable/global/SideNavItem'
@@ -9,7 +10,6 @@ import NavItemInterface from 'lib/interface/NavItemInterface'
 
 // Icon
 import BarArrowDownIcon from '../../../asset/svg/bar-arrow-down.svg'
-import { useRouter } from 'next/router'
 
 type Props = {
   navItemWrapper: NavItemInterface,
